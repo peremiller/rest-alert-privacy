@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rest Alert — Privacy Policy</title>
+  <style>
+    :root { --green:#149B6E; --green-light:#3DDC97; --ink:#13241C; --muted:#5b6b63; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+           color:var(--ink); line-height:1.65; background:#f6faf8; }
+    header { background:linear-gradient(135deg,var(--green-light),var(--green)); color:#fff;
+             padding:48px 24px; text-align:center; }
+    header h1 { margin:0 0 8px; font-size:2rem; }
+    header p { margin:0; opacity:.9; }
+    main { max-width:820px; margin:0 auto; padding:32px 24px 80px; }
+    h2 { color:var(--green); margin-top:2em; border-bottom:2px solid #e2efe9; padding-bottom:6px; }
+    table { border-collapse:collapse; width:100%; margin:16px 0; background:#fff; }
+    th,td { border:1px solid #e2efe9; padding:10px 12px; text-align:left; vertical-align:top; }
+    th { background:#eaf6f0; }
+    a { color:var(--green); }
+    .note { background:#fff; border-left:4px solid var(--green-light); padding:12px 16px;
+            border-radius:6px; color:var(--muted); }
+    .pill { display:inline-block; background:#eaf6f0; color:var(--green); border-radius:999px;
+            padding:2px 12px; font-size:.85rem; font-weight:600; }
+    footer { text-align:center; color:var(--muted); padding:24px; font-size:.9rem; }
+    code { background:#eef4f1; padding:1px 6px; border-radius:4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Rest Alert — Privacy Policy</h1>
+    <p>Effective June 19, 2026 · Last updated June 19, 2026</p>
+  </header>
+  <main>
+    <p>Rest Alert (&ldquo;the app&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) is a personal
+    wellness app that reads your heart-rate and heart-rate-variability (HRV) data from your
+    smartwatch and sends you rest reminders. This policy explains exactly what data we handle,
+    why, and your choices. We collect the minimum needed to make the app work, and
+    <strong>we never sell your data</strong>.</p>
+    <p class="note">Developer: <strong>AJ Miller T. Perez</strong> &middot; Contact:
+    <strong>[your-support-email]</strong></p>
+
+    <h2>1. Data we collect</h2>
+    <p>Rest Alert reads the following from <strong>Health Connect</strong>, only after you grant
+    permission:</p>
+    <table>
+      <tr><th>Data</th><th>Source</th><th>Why we need it</th></tr>
+      <tr><td>Heart rate (bpm)</td><td>Your smartwatch via Health Connect</td>
+          <td>Detect sustained high heart rate while at rest</td></tr>
+      <tr><td>Heart-rate variability (HRV / RMSSD, ms)</td><td>Your smartwatch via Health Connect</td>
+          <td>Detect low HRV (fatigue / under-recovery)</td></tr>
+      <tr><td>Exercise / workout sessions</td><td>Health Connect</td>
+          <td>Suppress alerts during workouts (high HR is expected then)</td></tr>
+    </table>
+    <p>We also store your <strong>Telegram chat ID</strong> (to deliver alerts) and your
+    <strong>app settings</strong> (thresholds, quiet hours, pause state). We do <strong>not</strong>
+    collect your name, email, location, contacts, or advertising identifiers.</p>
+
+    <h2>2. How we use your data</h2>
+    <p>Your data is used <strong>solely</strong> to decide whether to send a rest alert, deliver
+    those alerts and a daily morning recovery summary to your Telegram chat, and show your recent
+    readings in the app. No advertising, profiling, or sale of data.</p>
+
+    <h2>3. Where your data goes</h2>
+    <p>Health readings are sent over HTTPS to the app&rsquo;s backend on <strong>Fly.io</strong>
+    and stored in a private database. Alerts are delivered via the <strong>Telegram Bot API</strong>
+    (subject to <a href="https://telegram.org/privacy">Telegram&rsquo;s Privacy Policy</a>). These
+    are the only third parties involved.</p>
+
+    <h2>4. Health Connect</h2>
+    <p>Our use of Health Connect follows the
+    <a href="https://support.google.com/googleplay/android-developer/answer/14315726">Health
+    Connect Permissions policy</a>. We request <strong>read-only</strong> access to Heart Rate,
+    HRV, and Exercise, use it only for the features above, and do not share it with third parties
+    except Telegram (to deliver your messages). You can revoke access anytime in the Health
+    Connect app.</p>
+
+    <h2>5. Data retention &amp; deletion</h2>
+    <p>Readings are auto-purged after <strong>[30] days</strong>. You can stop tracking anytime in
+    the app. To erase everything immediately, send <code>/delete</code> to the Telegram bot or
+    email <strong>[your-support-email]</strong>.</p>
+
+    <h2>6. Security</h2>
+    <p>Data in transit is protected with HTTPS/TLS; the backend is access-controlled with an API
+    key. No method is 100% secure, but we take reasonable measures to protect your data.</p>
+
+    <h2>7. Children</h2>
+    <p>Rest Alert is not directed to children under 13 (or the minimum age in your country) and we
+    do not knowingly collect their data.</p>
+
+    <h2>8. Your rights</h2>
+    <p>You may have the right to access, correct, or delete your data. Contact
+    <strong>[your-support-email]</strong> to exercise these rights.</p>
+
+    <h2>9. Not a medical device</h2>
+    <p>Rest Alert is a general wellness tool. It is <strong>not</strong> a medical device and is
+    not intended to diagnose, treat, cure, or prevent any disease. Always consult a qualified
+    health professional for medical advice.</p>
+
+    <h2>10. Changes to this policy</h2>
+    <p>We may update this policy; material changes will be reflected by the &ldquo;Last
+    updated&rdquo; date above.</p>
+
+    <h2>11. Contact</h2>
+    <p><strong>AJ Miller T. Perez</strong> — <strong>[your-support-email]</strong></p>
+  </main>
+  <footer><span class="pill">Rest Alert</span> &nbsp; Your watch tells you when to rest.</footer>
+</body>
+</html>
