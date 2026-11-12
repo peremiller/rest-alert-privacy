@@ -1,4 +1,4 @@
-const CONFIG = {"app":"rest-alert-privacy","version":"83f020754b8bba962712","assets":["favicon.svg","index.html","manifest.webmanifest","offline-client.js"],"pages":["index.html"],"spa":false};
+const CONFIG = {"app":"rest-alert-privacy","version":"6cfdcba5ced9a7af3276","assets":["favicon.svg","index.html","manifest.webmanifest","offline-client.js"],"pages":["index.html"],"spa":false};
 const BASE = new URL('./', self.location.href);
 const PREFIX = 'pages-offline-' + CONFIG.app + '-';
 const CACHE = PREFIX + CONFIG.version;
