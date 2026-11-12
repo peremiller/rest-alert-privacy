@@ -1,0 +1,100 @@
+name: Rest Alert Privacy Quality
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - index.html
+      - sw.js
+      - offline-assets.json
+      - .github/workflows/privacy-policy-quality.yml
+  pull_request:
+    paths:
+      - index.html
+      - sw.js
+      - offline-assets.json
+      - .github/workflows/privacy-policy-quality.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  privacy-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify canonical offline build is reproducible
+        run: |
+          python3 scripts/build-offline.py
+          git diff --exit-code -- sw.js offline-assets.json
+      - name: Check privacy accuracy, accessible markup and theme contrast
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          import re
+          import json
+
+          page = Path("index.html").read_text()
+          class PolicyParser(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.ids = set()
+                  self.anchors = []
+                  self.skip_first = None
+                  self.headings = []
+                  self.cells = []
+              def handle_starttag(self, tag, attrs):
+                  attrs = dict(attrs)
+                  if "id" in attrs:
+                      assert attrs["id"] not in self.ids, "duplicate HTML id"
+                      self.ids.add(attrs["id"])
+                  if tag == "a" and attrs.get("href", "").startswith("#"):
+                      self.anchors.append(attrs["href"][1:])
+                  if tag == "a" and attrs.get("class") == "skip-link":
+                      self.skip_first = attrs.get("href")
+                  if tag == "th":
+                      self.cells.append(attrs.get("scope"))
+          parsed = PolicyParser()
+          parsed.feed(page)
+          assert parsed.skip_first == "#privacy-content"
+          assert "privacy-content" in parsed.ids
+          assert all(target in parsed.ids for target in parsed.anchors)
+          assert parsed.cells == ["col", "col", "col"]
+          for unsupported in ("[your-support-email]", "[30] days", "auto-purged", "Fly.io", "These\n    are the only third parties involved"):
+              assert unsupported not in page, unsupported
+          for required in (
+              "Last updated November 12, 2026",
+              "not</strong> implement an automatic",
+              "linked Telegram bot",
+              "individual account-level authorization",
+              "does not automatically remove previously delivered Telegram messages",
+              "No verified public support email",
+              "prefers-color-scheme:dark",
+              "focus-visible",
+              "overflow-x:auto",
+          ):
+              assert required in page, required
+
+          def lum(color):
+              channels = [int(color[i:i+2], 16)/255 for i in (1,3,5)]
+              l = [c/12.92 if c <= 0.04045 else ((c+0.055)/1.055)**2.4 for c in channels]
+              return 0.2126*l[0] + 0.7152*l[1] + 0.0722*l[2]
+          def contrast(fg, bg):
+              a,b = lum(fg), lum(bg)
+              return (max(a,b)+0.05)/(min(a,b)+0.05)
+          for fg, bg in [
+              ("#ffffff","#127858"), ("#ffffff","#0b664b"),
+              ("#0b664b","#f6faf8"), ("#a4e8c4","#101a16"),
+              ("#d3e4da","#1b3128"), ("#eef8f2","#101a16"),
+          ]:
+              assert contrast(fg,bg) >= 4.5, (fg,bg,contrast(fg,bg))
+          config = json.loads(re.search(r"^const CONFIG = (\{[^\n]+\});", Path("sw.js").read_text(),re.M).group(1))
+          manifest = json.loads(Path("offline-assets.json").read_text())
+          assert config["version"] == manifest["version"]
+          assert config["assets"] == ["favicon.svg","index.html","manifest.webmanifest","offline-client.js"]
+          assert manifest["files"] == 4 and manifest["pages"] == 1
+          print("PASS: privacy accuracy, accessible navigation/table, theme contrast, deterministic offline bundle")
+          PY
